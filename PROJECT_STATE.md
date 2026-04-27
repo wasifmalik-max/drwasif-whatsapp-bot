@@ -1,24 +1,18 @@
-# Project State (Token-Minimal Resume Anchor)
+# WhatsApp Bot — Project State
 
-## Goal
-Deploy a safe WhatsApp clinical assistant with minimal moving parts.
+## Implemented (code)
+- `GET /healthz` — Render health check
+- `GET /webhook` — Meta verify handshake (`hub.mode`, `hub.verify_token`, `hub.challenge`)
+- `POST /webhook` — inbound messages; emergency keywords; payment flow; outbound replies via Cloud API when `WHATSAPP_TOKEN` + `WHATSAPP_PHONE_NUMBER_ID` set
+- Payment: screenshot or image → reference ID → pending manual verification → approve/reject
+- `POST /payment/approve`, `/payment/reject` — optional `ADMIN_API_KEY` via header `X-Admin-Key`
+- `GET /payment/state/{sender}`, `GET /payment/states` — admin-protected when `ADMIN_API_KEY` set
+- Doctor alert via WhatsApp to `DOCTOR_ALERT_NUMBER` when tokens configured
 
-## Current Status
-- Ultra-minimal FastAPI service scaffold created.
-- Render config added.
-- Env template added.
-- One-click GitHub deploy workflow added.
+## You complete (dashboard)
+1. **Render**: New Web Service → repo `wasifmalik-max/drwasif-whatsapp-bot` → copy env from `.env.example`
+2. **Meta**: WhatsApp → Configuration → Webhook URL `https://<render-host>/webhook`, Verify Token = `WHATSAPP_VERIFY_TOKEN`
+3. **GitHub**: Add secrets only if you automate beyond Render (optional)
 
-## Non-Negotiable Policy
-- Claude primary for patient-facing replies.
-- Emergency/red-flag: immediate escalation path.
-- Payment approval only after screenshot + transaction reference + manual doctor confirmation.
-
-## Next 3 Tasks
-1. Add GitHub repo secrets.
-2. Connect Render service and set same env vars.
-3. Run `Deploy Bot` workflow once and verify `/healthz`.
-
-## Resume Command
-Resume WhatsApp Clinical Bot from PROJECT_STATE.md in ultra-minimal mode.
-
+## Resume
+`Resume WhatsApp bot from PROJECT_STATE.md — continue deployment or next feature.`
