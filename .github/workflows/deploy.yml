@@ -1,0 +1,39 @@
+name: Deploy Bot
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Smoke import
+        run: |
+          python -c "from app.main import app; print(app.title)"
+
+  deploy-note:
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: Deployment note
+        run: |
+          echo "Validation passed."
+          echo "Render auto-deploy triggers on push to main."
+          echo "If Render not connected yet, connect repo once in dashboard."
+
